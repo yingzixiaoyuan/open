@@ -30,6 +30,12 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/chat',
+    layout: false,
+    name: 'chat',
+    component: './Chat',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
