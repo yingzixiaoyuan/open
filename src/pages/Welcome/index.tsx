@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/no-array-index-key */
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Col, Row, Typography, Button, Divider, Tag } from 'antd';
-import React, { useEffect, useState, useMemo } from 'react';
+import { Button, Card, Col, Divider, Row, Tag, Typography } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useModel } from 'umi';
 import styles from './index.less';
 const { Title, Paragraph, Link } = Typography;
@@ -36,9 +37,9 @@ type SearchProps = {
   label?: string;
 };
 const LabelsList: React.FC<SearchProps> = (props) => {
-  const { tags,getTagsFunc } = useModel('welcome');
+  const { tags, getTagsFunc } = useModel('welcome');
   useEffect(() => {
-    getTagsFunc(props?.label )
+    getTagsFunc(props?.label);
   }, [props.label]);
   return (
     <>
@@ -85,19 +86,23 @@ const LabelsList: React.FC<SearchProps> = (props) => {
           );
         })}
       </Row>
-    </>  
-  )
+    </>
+  );
 };
 
 const Welcome: React.FC = () => {
   const [searchLabel, setSearchLabel] = useState<string>();
-  function onClickLabel(label: string) {
+  let navigate = useNavigate();
+  const onClickLabel = (label: string) => {
     setSearchLabel(label);
     console.log(label, 'Clicked! But prevent default.');
-  }
+  };
   const searchLabelParam = useMemo(() => {
     return { key: searchLabel };
   }, [searchLabel]); // Don't forget the dependencies here either!
+  const startChat = () => {
+    navigate('/chat');
+  };
   return (
     <PageContainer>
       <Typography className={styles.center}>
@@ -107,7 +112,13 @@ const Welcome: React.FC = () => {
           <Link href="/docs/spec/proximity">加入QQ群</Link>
         </Paragraph>
         <div style={{ textAlign: 'center' }}>
-          <Button style={{ margin: '5px' }} type="primary" shape="round" size="large">
+          <Button
+            style={{ margin: '5px' }}
+            type="primary"
+            shape="round"
+            size="large"
+            onClick={() => startChat()}
+          >
             开始对话
           </Button>
           <Button style={{ margin: '5px' }} type="default" shape="round" size="large">

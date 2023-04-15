@@ -1,3 +1,7 @@
+import './styles/globals.scss';
+import './styles/highlight.scss';
+import './styles/markdown.scss';
+
 import { useIntl } from '@umijs/max';
 import { Button, message, notification } from 'antd';
 import defaultSettings from '../config/defaultSettings';

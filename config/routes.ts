@@ -29,11 +29,17 @@ export default [
     icon: 'smile',
     component: './Welcome',
   },
+  // {
+  //   path: '/chatbot',
+  //   layout: false,
+  //   name: 'chatbot',
+  //   component: './Chatbot',
+  // },
   {
     path: '/chat',
     layout: false,
     name: 'chat',
-    component: './Chat',
+    component: './Home',
   },
   {
     path: '/admin',
