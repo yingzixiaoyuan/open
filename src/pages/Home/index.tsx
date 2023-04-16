@@ -8,7 +8,7 @@ import { IconButton } from './button';
 import styles from './home.module.scss';
 
 import { ReactComponent as ChatGptIcon } from '@/icons/chatgpt.svg';
-import { ReactComponent as GithubIcon } from '@/icons/github.svg';
+// import { ReactComponent as GithubIcon } from '@/icons/github.svg';
 import { ReactComponent as SettingsIcon } from '@/icons/settings.svg';
 
 import { ReactComponent as AddIcon } from '@/icons/add.svg';
@@ -16,13 +16,14 @@ import { ReactComponent as BotIcon } from '@/icons/bot.svg';
 import { ReactComponent as CloseIcon } from '@/icons/close.svg';
 import { ReactComponent as LoadingIcon } from '@/icons/three-dots.svg';
 
+import { ReactComponent as ClearIcon } from '@/icons/clear.svg';
+
 import Locale from '@/clocales';
 import { useChatStore } from '@/store';
 import { isMobileScreen } from '@/utils';
-import { Chat } from './chat';
-
-import { REPO_URL } from '@/constant';
+import { Popconfirm } from 'antd';
 import dynamic from 'next/dynamic';
+import { Chat } from './chat';
 // import { ErrorBoundary } from "./error";
 
 export function Loading(props: { noLogo?: boolean }) {
@@ -127,10 +128,13 @@ const useHasHydrated = () => {
 };
 
 function _Home() {
+  const [clearSessions] = useChatStore((state) => [state.clearSessions]);
+
   const [createNewSession] = useChatStore((state) => [
     state.newSession,
     state.currentSessionIndex,
     state.removeSession,
+    state.clearSessions,
   ]);
   const chatStore = useChatStore();
   const loading = !useHasHydrated();
@@ -190,9 +194,15 @@ function _Home() {
               />
             </div>
             <div className={styles['sidebar-action']}>
-              <a href={REPO_URL} target="_blank" rel="noreferrer">
-                <IconButton icon={<GithubIcon />} shadow />
-              </a>
+              <Popconfirm
+                title={Locale.Settings.Actions.ClearAll}
+                description={Locale.Settings.Actions.ConfirmClearAll.Confirm}
+                onConfirm={() => {
+                  clearSessions();
+                }}
+              >
+                <IconButton icon={<ClearIcon />} bordered shadow />
+              </Popconfirm>
             </div>
           </div>
           <div>

@@ -1,36 +1,36 @@
-import { HTMLProps, useEffect, useMemo, useState } from 'react';
+// import { HTMLProps, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import EmojiPicker, { Theme as EmojiTheme } from 'emoji-picker-react';
 
 import styles from './settings.module.scss';
 
-import { ReactComponent as ClearIcon } from '@/icons/clear.svg';
+// import { ReactComponent as ClearIcon } from '@/icons/clear.svg';
 import { ReactComponent as CloseIcon } from '@/icons/close.svg';
-import { ReactComponent as EditIcon } from '@/icons/edit.svg';
-import { ReactComponent as EyeOffIcon } from '@/icons/eye-off.svg';
-import { ReactComponent as EyeIcon } from '@/icons/eye.svg';
-import { ReactComponent as ResetIcon } from '@/icons/reload.svg';
+// import { ReactComponent as EditIcon } from '@/icons/edit.svg';
+// import { ReactComponent as EyeOffIcon } from '@/icons/eye-off.svg';
+// import { ReactComponent as EyeIcon } from '@/icons/eye.svg';
+// import { ReactComponent as ResetIcon } from '@/icons/reload.svg';
 
-import { List, ListItem, Popover, showToast } from './ui-lib';
+import { List, ListItem, Popover } from './ui-lib';
 
 import {
   ALL_MODELS,
   ModalConfigValidator,
   SubmitKey,
   Theme,
-  useAccessStore,
+  // useAccessStore,
   useChatStore,
-  useUpdateStore,
 } from '@/store';
 import { IconButton } from './button';
 import { Avatar } from './chat';
 
 import Locale, { AllLangs, changeLang, getLang } from '@/clocales';
-import { UPDATE_URL } from '@/constant';
-import { requestUsage } from '@/requests';
-import { SearchService, usePromptStore } from '@/store/prompt';
+// import { UPDATE_URL } from '@/constant';
+// import { requestUsage } from '@/requests';
+// import { SearchService, usePromptStore } from '@/store/prompt';
 import { getEmojiUrl } from '@/utils';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { InputRange } from './input-range';
 
 function SettingItem(props: { title: string; subTitle?: string; children: JSX.Element }) {
@@ -45,28 +45,28 @@ function SettingItem(props: { title: string; subTitle?: string; children: JSX.El
   );
 }
 
-function PasswordInput(props: HTMLProps<HTMLInputElement>) {
-  const [visible, setVisible] = useState(false);
+// function PasswordInput(props: HTMLProps<HTMLInputElement>) {
+//   const [visible, setVisible] = useState(false);
 
-  function changeVisibility() {
-    setVisible(!visible);
-  }
+//   function changeVisibility() {
+//     setVisible(!visible);
+//   }
 
-  return (
-    <div className={styles['password-input-container']}>
-      <IconButton
-        icon={visible ? <EyeIcon /> : <EyeOffIcon />}
-        onClick={changeVisibility}
-        className={styles['password-eye']}
-      />
-      <input {...props} type={visible ? 'text' : 'password'} className={styles['password-input']} />
-    </div>
-  );
-}
+//   return (
+//     <div className={styles['password-input-container']}>
+//       <IconButton
+//         icon={visible ? <EyeIcon /> : <EyeOffIcon />}
+//         onClick={changeVisibility}
+//         className={styles['password-eye']}
+//       />
+//       <input {...props} type={visible ? 'text' : 'password'} className={styles['password-input']} />
+//     </div>
+//   );
+// }
 
 export function Settings(props: { closeSettings: () => void }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [config, updateConfig, resetConfig, clearSessions] = useChatStore((state) => [
+  const [config, updateConfig] = useChatStore((state) => [
     state.config,
     state.updateConfig,
     state.resetConfig,
@@ -74,51 +74,51 @@ export function Settings(props: { closeSettings: () => void }) {
     state.clearSessions,
   ]);
 
-  const updateStore = useUpdateStore();
-  const [checkingUpdate, setCheckingUpdate] = useState(false);
-  const currentVersion = updateStore.version;
-  const remoteId = updateStore.remoteVersion;
-  const hasNewVersion = currentVersion !== remoteId;
+  // const updateStore = useUpdateStore();
+  // const [checkingUpdate, setCheckingUpdate] = useState(false);
+  // const currentVersion = updateStore.version;
+  // const remoteId = updateStore.remoteVersion;
+  // const hasNewVersion = currentVersion !== remoteId;
 
-  function checkUpdate(force = false) {
-    setCheckingUpdate(true);
-    updateStore.getLatestVersion(force).then(() => {
-      setCheckingUpdate(false);
-    });
-  }
+  // function checkUpdate(force = false) {
+  //   setCheckingUpdate(true);
+  //   updateStore.getLatestVersion(force).then(() => {
+  //     setCheckingUpdate(false);
+  //   });
+  // }
 
-  const [usage, setUsage] = useState<{
-    used?: number;
-    subscription?: number;
-  }>();
-  const [loadingUsage, setLoadingUsage] = useState(false);
-  function checkUsage() {
-    setLoadingUsage(true);
-    requestUsage()
-      .then((res) => setUsage(res))
-      .finally(() => {
-        setLoadingUsage(false);
-      });
-  }
+  // const [usage, setUsage] = useState<{
+  //   used?: number;
+  //   subscription?: number;
+  // }>();
+  // const [loadingUsage, setLoadingUsage] = useState(false);
+  // function checkUsage() {
+  //   setLoadingUsage(true);
+  //   requestUsage()
+  //     .then((res) => setUsage(res))
+  //     .finally(() => {
+  //       setLoadingUsage(false);
+  //     });
+  // }
 
-  const accessStore = useAccessStore();
-  const enabledAccessControl = useMemo(
-    () => accessStore.enabledAccessControl(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  // const accessStore = useAccessStore();
+  // const enabledAccessControl = useMemo(
+  //   () => accessStore.enabledAccessControl(),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [],
+  // );
 
-  const promptStore = usePromptStore();
-  const builtinCount = SearchService.count.builtin;
-  const customCount = promptStore.prompts.size ?? 0;
+  // const promptStore = usePromptStore();
+  // const builtinCount = SearchService.count.builtin;
+  // const customCount = promptStore.prompts.size ?? 0;
 
-  const showUsage = accessStore.isAuthorized();
-  useEffect(() => {
-    checkUpdate();
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    showUsage && checkUsage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const showUsage = accessStore.isAuthorized();
+  // useEffect(() => {
+  //   checkUpdate();
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  //   showUsage && checkUsage();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     const keydownEvent = (e: KeyboardEvent) => {
@@ -141,7 +141,7 @@ export function Settings(props: { closeSettings: () => void }) {
           <div className={styles['window-header-sub-title']}>{Locale.Settings.SubTitle}</div>
         </div>
         <div className={styles['window-actions']}>
-          <div className={styles['window-action-button']}>
+          {/* <div className={styles['window-action-button']}>
             <IconButton
               icon={<ClearIcon />}
               onClick={() => {
@@ -155,8 +155,8 @@ export function Settings(props: { closeSettings: () => void }) {
               bordered
               title={Locale.Settings.Actions.ClearAll}
             />
-          </div>
-          <div className={styles['window-action-button']}>
+          </div> */}
+          {/* <div className={styles['window-action-button']}>
             <IconButton
               icon={<ResetIcon />}
               onClick={() => {
@@ -170,7 +170,7 @@ export function Settings(props: { closeSettings: () => void }) {
               bordered
               title={Locale.Settings.Actions.ResetAll}
             />
-          </div>
+          </div> */}
           <div className={styles['window-action-button']}>
             <IconButton
               icon={<CloseIcon />}
@@ -205,7 +205,7 @@ export function Settings(props: { closeSettings: () => void }) {
             </Popover>
           </SettingItem>
 
-          <SettingItem
+          {/* <SettingItem
             title={Locale.Settings.Update.Version(currentVersion ?? 'unknown')}
             subTitle={
               checkingUpdate
@@ -228,7 +228,7 @@ export function Settings(props: { closeSettings: () => void }) {
                 onClick={() => checkUpdate(true)}
               />
             )}
-          </SettingItem>
+          </SettingItem> */}
 
           <SettingItem title={Locale.Settings.SendKey}>
             <select
@@ -302,7 +302,7 @@ export function Settings(props: { closeSettings: () => void }) {
             ></input>
           </SettingItem>
 
-          <SettingItem title={Locale.Settings.SendPreviewBubble}>
+          {/* <SettingItem title={Locale.Settings.SendPreviewBubble}>
             <input
               type="checkbox"
               checked={config.sendPreviewBubble}
@@ -310,11 +310,11 @@ export function Settings(props: { closeSettings: () => void }) {
                 updateConfig((config) => (config.sendPreviewBubble = e.currentTarget.checked))
               }
             ></input>
-          </SettingItem>
+          </SettingItem> */}
         </List>
 
         <List>
-          {enabledAccessControl ? (
+          {/* {enabledAccessControl ? (
             <SettingItem
               title={Locale.Settings.AccessCode.Title}
               subTitle={Locale.Settings.AccessCode.SubTitle}
@@ -368,7 +368,7 @@ export function Settings(props: { closeSettings: () => void }) {
                 onClick={checkUsage}
               />
             )}
-          </SettingItem>
+          </SettingItem> */}
 
           <SettingItem
             title={Locale.Settings.HistoryCount.Title}
@@ -419,7 +419,7 @@ export function Settings(props: { closeSettings: () => void }) {
             ></input>
           </SettingItem>
 
-          <SettingItem
+          {/* <SettingItem
             title={Locale.Settings.Prompt.List}
             subTitle={Locale.Settings.Prompt.ListCount(builtinCount, customCount)}
           >
@@ -428,7 +428,7 @@ export function Settings(props: { closeSettings: () => void }) {
               text={Locale.Settings.Prompt.Edit}
               onClick={() => showToast(Locale.WIP)}
             />
-          </SettingItem>
+          </SettingItem> */}
         </List>
 
         <List>

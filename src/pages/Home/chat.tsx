@@ -3,7 +3,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { ReactComponent as AddIcon } from '@/icons/add.svg';
 import { ReactComponent as BotIcon } from '@/icons/bot.svg';
-import { ReactComponent as BrainIcon } from '@/icons/brain.svg';
+// import { ReactComponent as BrainIcon } from '@/icons/brain.svg';
 import { ReactComponent as CopyIcon } from '@/icons/copy.svg';
 import { ReactComponent as DeleteIcon } from '@/icons/delete.svg';
 import { ReactComponent as DownloadIcon } from '@/icons/download.svg';
@@ -14,6 +14,7 @@ import { ReactComponent as SendWhiteIcon } from '@/icons/send-white.svg';
 import { ReactComponent as ExportIcon } from '@/icons/share.svg';
 import { ReactComponent as LoadingIcon } from '@/icons/three-dots.svg';
 import { ReactComponent as UserIcon } from '@/icons/user.svg';
+import Dictaphone from './microphone';
 
 import {
   BOT_HELLO,
@@ -131,7 +132,7 @@ function PromptToast(props: {
 
   return (
     <div className={chatStyle['prompt-toast']} key="prompt-toast">
-      {props.showToast && (
+      {/* {props.showToast && (
         <div
           className={chatStyle['prompt-toast-inner'] + ' clickable'}
           role="button"
@@ -142,7 +143,7 @@ function PromptToast(props: {
             {Locale.Context.Toast(context.length)}
           </span>
         </div>
-      )}
+      )} */}
       {props.showModal && (
         <div className="modal-mask">
           <Modal
@@ -391,6 +392,9 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
       trailing: true,
     },
   );
+  const clickFunction = (msg: string) => {
+    setUserInput(msg);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(measure, [userInput]);
@@ -556,7 +560,7 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
               onClick={props?.showSideBar}
             />
           </div>
-          <div className={styles['window-action-button']}>
+          {/* <div className={styles['window-action-button']}>
             <IconButton
               icon={<BrainIcon />}
               bordered
@@ -565,7 +569,7 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
                 setShowPromptModal(true);
               }}
             />
-          </div>
+          </div> */}
           <div className={styles['window-action-button']}>
             <IconButton
               icon={<ExportIcon />}
@@ -627,8 +631,11 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
                 {(message.preview || message.streaming) && (
                   <div className={styles['chat-message-status']}>{Locale.Chat.Typing}</div>
                 )}
-                <div className={styles['chat-message-item']}>
-                  {!isUser && !(message.preview || message.content.length === 0) && (
+                <div
+                  className={styles['chat-message-item']}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  {!isUser && !(message?.preview || message.content?.length === 0) && (
                     <div className={styles['chat-message-top-actions']}>
                       {message.streaming ? (
                         <div
@@ -648,12 +655,13 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
 
                       <div
                         className={styles['chat-message-top-action']}
-                        onClick={() => copyToClipboard(message.content)}
+                        onClick={() => copyToClipboard(message?.content)}
                       >
                         {Locale.Chat.Actions.Copy}
                       </div>
                     </div>
                   )}
+
                   {(message.preview || message.content.length === 0) && !isUser ? (
                     <LoadingIcon />
                   ) : (
@@ -670,6 +678,7 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
                     </div>
                   )}
                 </div>
+
                 {isUser && (
                   <div className={styles['chat-message-avatar']} style={{ paddingLeft: '10px' }}>
                     <Avatar role={message.role} />
@@ -691,8 +700,10 @@ export function Chat(props: { showSideBar?: () => void; sideBarShowing?: boolean
       <div className={styles['chat-input-panel']}>
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
         <div className={styles['chat-input-panel-inner']}>
+          <Dictaphone clickFunction={clickFunction}></Dictaphone>
           <textarea
             ref={inputRef}
+            style={{ marginLeft: '10px' }}
             className={styles['chat-input']}
             placeholder={Locale.Chat.Input(submitKey)}
             onInput={(e) => onInput(e.currentTarget.value)}

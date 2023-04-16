@@ -126,12 +126,12 @@ const DEFAULT_CONFIG: ChatConfig = {
   historyMessageCount: 4,
   compressMessageLengthThreshold: 1000,
   sendBotMessages: true as boolean,
-  submitKey: SubmitKey.CtrlEnter as SubmitKey,
+  submitKey: SubmitKey.Enter as SubmitKey,
   avatar: '1f603',
   fontSize: 14,
-  theme: Theme.Auto as Theme,
+  theme: Theme.Light as Theme,
   tightBorder: false,
-  sendPreviewBubble: true,
+  sendPreviewBubble: false,
   sidebarWidth: 300,
 
   disablePromptHint: false,
@@ -162,10 +162,10 @@ export interface ChatSession {
   lastSummarizeIndex: number;
 }
 
-const DEFAULT_TOPIC = Locale.Store.DefaultTopic;
+const DEFAULT_TOPIC = Locale?.Store?.DefaultTopic;
 export const BOT_HELLO: Message = createMessage({
   role: 'assistant',
-  content: Locale.Store.BotHello,
+  content: Locale?.Store?.BotHello,
 });
 
 function createEmptySession(): ChatSession {
