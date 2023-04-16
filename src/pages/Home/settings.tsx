@@ -1,7 +1,7 @@
 // import { HTMLProps, useEffect, useMemo, useState } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import EmojiPicker, { Theme as EmojiTheme } from 'emoji-picker-react';
+// import EmojiPicker, { Theme as EmojiTheme } from 'emoji-picker-react';
 
 import styles from './settings.module.scss';
 
@@ -12,7 +12,8 @@ import { ReactComponent as CloseIcon } from '@/icons/close.svg';
 // import { ReactComponent as EyeIcon } from '@/icons/eye.svg';
 // import { ReactComponent as ResetIcon } from '@/icons/reload.svg';
 
-import { List, ListItem, Popover } from './ui-lib';
+// import { List, ListItem, Popover } from './ui-lib';
+import { List, ListItem } from './ui-lib';
 
 import {
   ALL_MODELS,
@@ -23,13 +24,13 @@ import {
   useChatStore,
 } from '@/store';
 import { IconButton } from './button';
-import { Avatar } from './chat';
+// import { Avatar } from './chat';
 
 import Locale, { AllLangs, changeLang, getLang } from '@/clocales';
 // import { UPDATE_URL } from '@/constant';
 // import { requestUsage } from '@/requests';
 // import { SearchService, usePromptStore } from '@/store/prompt';
-import { getEmojiUrl } from '@/utils';
+// import { getEmojiUrl } from '@/utils';
 // import Link from 'next/link';
 import { InputRange } from './input-range';
 
@@ -65,7 +66,7 @@ function SettingItem(props: { title: string; subTitle?: string; children: JSX.El
 // }
 
 export function Settings(props: { closeSettings: () => void }) {
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  // const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [config, updateConfig] = useChatStore((state) => [
     state.config,
     state.updateConfig,
@@ -183,7 +184,7 @@ export function Settings(props: { closeSettings: () => void }) {
       </div>
       <div className={styles['settings']}>
         <List>
-          <SettingItem title={Locale.Settings.Avatar}>
+          {/* <SettingItem title={Locale.Settings.Avatar}>
             <Popover
               onClose={() => setShowEmojiPicker(false)}
               content={
@@ -203,7 +204,7 @@ export function Settings(props: { closeSettings: () => void }) {
                 <Avatar role="user" />
               </div>
             </Popover>
-          </SettingItem>
+          </SettingItem> */}
 
           {/* <SettingItem
             title={Locale.Settings.Update.Version(currentVersion ?? 'unknown')}
